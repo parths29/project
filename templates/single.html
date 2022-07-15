@@ -42,9 +42,9 @@
                                                     <a class="text-white" role="button" onclick="deletePostPopup()">Delete post</a>
                                                 </li>
                                                 {% if post.hidden == True %}
-                                                    <form action="{% url 'blog:unHidePost' %}" method="GET">
+                                                    <form action="{% url 'blog:un_hide_post' %}" method="GET">
                                                         <input type="hidden" name="post_id" value="{{ post.id }}">
-                                                        <button class="btn text-white" onclick="/unHidePost">Unhide Post</button>
+                                                        <button class="btn text-white" onclick="/un_hide_post">Unhide Post</button>
                                                     </form>
                                                 {% else %}
                                                     <li>
@@ -164,10 +164,10 @@
                 </p>
                 <div class="row container_form">
                     <span>
-                        <form action="{% url 'blog:deletePost' %}" method="GET">
+                        <form action="{% url 'blog:delete_post' %}" method="GET">
                             <input type="hidden" name="post_id" id="post_id"value="{{ post.id }}">
                             {% comment %} <a role="button" class="btn" type="submit">yes</a><a class="btn" role="button" onclick="deletePostPopup()">no</a> {% endcomment %}
-                            <button class="btn" onclick="/deletePost">
+                            <button class="btn" onclick="/delete_post">
                                 yes
                             </button>
                         </form>
@@ -185,10 +185,10 @@
                 </p>
                 <div class="row container_form">
                     <span>
-                        <form action="{% url 'blog:hidePost' %}" method="GET">
+                        <form action="{% url 'blog:hide_post' %}" method="GET">
                             <input type="hidden" name="post_id" id="post_id"value="{{ post.id }}">
                             {% comment %} <a role="button" class="btn" type="submit">yes</a><a class="btn" role="button" onclick="deletePostPopup()">no</a> {% endcomment %}
-                            <button class="btn" onclick="/hidePost">
+                            <button class="btn" onclick="/hide_post">
                                 yes
                             </button>
                         </form>

@@ -92,7 +92,7 @@ def signup(request):
 
 
 @login_required()
-def addPost(request):
+def add_post(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         slug = slugify(title)
@@ -111,7 +111,7 @@ def addPost(request):
     return render(request, 'addpost.html')
 
 
-def blogPost(request, slug):
+def blog_post(request, slug):
     post = Blog.objects.get(slug=slug)
     if request.user.is_authenticated:
         post.viewers.add(request.user)
@@ -124,7 +124,7 @@ def blogPost(request, slug):
 
 
 @login_required()
-def deletePost(request):
+def delete_post(request):
     if request.method == "GET":
         post_id = request.GET.get('post_id')
         post = Blog.objects.get(id=post_id)
@@ -133,7 +133,7 @@ def deletePost(request):
 
 
 @login_required()
-def hidePost(request):
+def hide_post(request):
     if request.method == "GET":
         post_id = request.GET.get('post_id')
         post = Blog.objects.get(id=post_id)
@@ -143,7 +143,7 @@ def hidePost(request):
 
 
 @login_required()
-def unHidePost(request):
+def un_hide_post(request):
     post_id = request.GET.get('post_id')
     post = Blog.objects.get(id=post_id)
     post.hidden = False
