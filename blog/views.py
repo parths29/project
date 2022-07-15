@@ -18,8 +18,8 @@ def home(request):
     paginator = Paginator(all_posts, 10, orphans=3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
-    trending = []
-    # trending = requests.get('https://inshorts.deta.dev/news?category=national').json()['data'][:18]
+    # trending = []
+    trending = requests.get('https://inshorts.deta.dev/news?category=national').json()['data'][:18]
     return render(request, 'index.html', context={'posts': posts, 'trending': trending})
 
 
@@ -152,7 +152,7 @@ def unHidePost(request):
 
 
 @login_required()
-def editPost(request):
+def edit_post(request):
     if request.method == 'POST':
         new_title = request.POST['new_title']
         new_content = request.POST['new_content']
