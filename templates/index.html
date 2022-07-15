@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block homeactive %}
+    active
+{% endblock homeactive %}
+{% block content %}
+    <!-- Main News Slider Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 px-0">
+                <div class="owl-carousel main-carousel position-relative">
+                    {% for post in posts %}
+                        {% if forloop.counter < 4 %}
+                            <div class="position-relative overflow-hidden" style="height: 500px;">
+                                <img class="img-fluid h-100"
+                                     src="/media/{{ post.img_file }}"
+                                     style="object-fit: cover;">
+                                <div class="overlay">
+                                    <div class="mb-2">
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                           href="/category/{{ post.category.id }}">{{ post.category }}</a>
+                                        <a class="text-white" href="">{{ post.posted_on }}</a>
+                                    </div>
+                                    <a class="h2 m-0 text-white text-uppercase font-weight-bold"
+                                       href="/blogpost/{{ post.slug }}">{{ post.title|truncatechars:58 }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main News Slider End -->
+    <!-- News With Sidebar Start -->
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title">
+                                {% if posts|length_is:0 %}
+                                    <h4 class="m-0 text-uppercase font-weight-bold">No Posts</h4>
+                                {% else %}
+                                    <h4 class="m-0 text-uppercase font-weight-bold">Latest Posts</h4>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% for post in posts %}
+                            <div class="col-lg-6">
+                                <div class="position-relative mb-3">
+                                    <img class="img-fluid w-100"
+                                         src="/media/{{ post.img_file }}"
+                                         style="object-fit: cover;">
+                                    <div class="bg-white border border-top-0 p-4">
+                                        <div class="mb-2">
+                                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                               href="/category/{{ post.category.id }}">{{ post.category }}</a>
+                                            <a class="text-body" href=""><small>{{ post.posted_on }}</small></a>
+                                        </div>
+                                        <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold"
+                                           href="/blogpost/{{ post.slug }}">{{ post.title|truncatechars:80 }}</a>
+                                        <p class="m-0">
+                                            {{ post.content|truncatechars:130 }}<a href="/blogpost/{{ post.slug }}">read more</a>
+                                        </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                                        <div class="d-flex align-items-center">
+                                            <small><a href="/profile/{{ post.author }}">{{ post.author }}</a></small>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <small class="ml-3"><i class="far fa-eye mr-2"></i>{{ post.viewers.count }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!--pagination starts-->
+                    {% if posts|length_is:0 %}
+                    {% else %}
+                        <div class="row">
+                            <div class="col-12">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center">
+                                        {% if posts.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=1" aria-label="Previous">
+                                                    <span class="fa fa-angle-double-left" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ posts.previous_page_number }}">{{ posts.previous_page_number }}</a>
+                                            </li>
+                                        {% endif %}
+                                        <li class="page-item active">
+                                            <a class="page-link" href="?page={{ posts.number }}">{{ posts.number }}</a>
+                                        </li>
+                                        {% if posts.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ posts.next_page_number }}">{{ posts.next_page_number }}</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                   href="?page={{ posts.paginator.num_pages }}"
+                                                   aria-label="Next">
+                                                    <span class="fa fa-angle-double-right" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!--pagination ends-->
+                </div>
+                <div class="col-lg-4">
+                    <!-- Popular News Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Trending News</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            {% for post in trending %}
+                                <div class="d-flex align-items-center bg-white mb-3"
+                                     style="height: 110px;">
+                                    {% comment %} <img class="img-fluid"
+      src="{{ post.imageUrl }}"
+      alt=""
+      width="70px"
+      height="30px"> {% endcomment %}
+                                    <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                        <div class="mb-2">
+                                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2">Trending</a>
+                                            <a class="text-body"><small>{{ post.date }}</small></a>
+                                        </div>
+                                        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold"
+                                           href="{{ post.readMoreUrl }}">{{ post.title }}</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Popular News End -->
+                    <!-- Tags Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Tags</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            <div class="d-flex flex-wrap m-n1">
+                                <a href="/category/general" class="btn btn-sm btn-outline-secondary m-1">General</a>
+                                <a href="/category/lifestyle"
+                                   class="btn btn-sm btn-outline-secondary m-1">Lifestyle</a>
+                                <a href="/category/travel" class="btn btn-sm btn-outline-secondary m-1">Travel</a>
+                                <a href="/category/entertainment"
+                                   class="btn btn-sm btn-outline-secondary m-1">Entertainment</a>
+                                <a href="/category/foods" class="btn btn-sm btn-outline-secondary m-1">Foods</a>
+                                <a href="/category/technology"
+                                   class="btn btn-sm btn-outline-secondary m-1">Technology</a>
+                                <a href="/category/science" class="btn btn-sm btn-outline-secondary m-1">Science</a>
+                                <a href="/category/education"
+                                   class="btn btn-sm btn-outline-secondary m-1">Education</a>
+                                <a href="/category/health" class="btn btn-sm btn-outline-secondary m-1">Health</a>
+                                <a href="/category/sports" class="btn btn-sm btn-outline-secondary m-1">Sports</a>
+                                <a href="/category/corporate"
+                                   class="btn btn-sm btn-outline-secondary m-1">Corporate</a>
+                                <a href="/category/business"
+                                   class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="/category/politics"
+                                   class="btn btn-sm btn-outline-secondary m-1">Politics</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tags End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- News With Sidebar End -->
+{% endblock content %}

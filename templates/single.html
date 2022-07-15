@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Navbar End -->
+    <!-- News With Sidebar Start -->
+    <div class="container-fluid mt-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- News Detail Start -->
+                    <div class="position-relative mb-3">
+                        <img class="img-fluid w-100"
+                             src="/media/{{ post.img_file }}"
+                             style="object-fit: cover;">
+                        <div class="bg-white border border-top-0 p-4">
+                            <div class="mb-3 row">
+                                <span>
+                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                       href="">{{ post.category }}</a></span>
+                                <span><a class="text-body" href="">{{ post.posted_on }}</a></span>
+                                {% if post.author_id == user.id %}
+                                    <span>
+                                        <div class="kebab">
+                                            <figure>
+                                            </figure>
+                                            <figure class="middle">
+                                            </figure>
+                                            <p class="cross">
+                                                x
+                                            </p>
+                                            <figure>
+                                            </figure>
+                                            <ul class="dropdown-kebab" style="padding-left: 0px">
+                                                <li>
+                                                    <form action="{% url 'blog:editPost' %}" method="GET">
+                                                        <input type="hidden" name="post_id" id="post_id" value="{{ post.id }}">
+                                                        <button class="btn text-white" onclick="/editPost">Edit Post</button>
+                                                    </form>
+                                                    {% comment %} <a href="/editPost">Edit post</a> {% endcomment %}
+                                                </li>
+                                                <li>
+                                                    <a class="text-white" role="button" onclick="deletePostPopup()">Delete post</a>
+                                                </li>
+                                                {% if post.hidden == True %}
+                                                    <form action="{% url 'blog:unHidePost' %}" method="GET">
+                                                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                                                        <button class="btn text-white" onclick="/unHidePost">Unhide Post</button>
+                                                    </form>
+                                                {% else %}
+                                                    <li>
+                                                        <a role="button" class="text-white" onclick="hidePostPopup()">Hide post</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">{{ post.title }}</h1>
+                            <p>
+                                {{ post.content }}
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                            <div class="d-flex align-items-center">
+                                <span><a href="/profile/{{ post.author }}">{{ post.author }}</a></span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="ml-3"><i class="far fa-eye mr-2"></i>{{ post.viewers.count }}</span>
+                                <span class="ml-3" id="comments_count"><i class="far fa-comment mr-2"></i>{{ comments.count|add:replies.count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- News Detail End -->
+                    <!-- Comment List Start -->
+                    <div class="mb-3">
+                        <div class="bg-light mb-3" style="padding: 30px;">
+                            <div class="contact-form bg-light mb-3" style="padding: 30px;">
+                                {% if user.is_authenticated %}
+                                    <form name="comment_form"
+                                          id="comment_form"
+                                          novalidate="novalidate"
+                                          method="POST"
+                                          action=".">
+                                        <h3>Post a comment</h3>
+                                        {% csrf_token %}
+                                        <div class="control-group">
+                                            <textarea class="form-control"
+                                                      rows="4"
+                                                      id="comment"
+                                                      name="comment"
+                                                      placeholder="Enter you comment"
+                                                      required="required"
+                                                      data-validation-required-message="Please enter comment"></textarea>
+                                            <p class="help-block text-danger">
+                                            </p>
+                                        </div>
+                                        <input type="hidden" name="post" id="post_id" value="{{ post.id }}">
+                                        <input type="hidden" name="user" id="user_id" value="{{ user.id }}">
+                                        <div>
+                                            <button class="btn btn-outline font-weight-semi-bold px-4 bg-dark text-white"
+                                                    style="height: 50px;"
+                                                    type="button"
+                                                    id="postCommentButton">
+                                                Post
+                                            </button>
+                                        </div>
+                                    </form>
+                                {% else %}
+                                    <h3>Please login to post a comment or reply</h3>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div id="main-comment-section">{% include 'comments.html' %}</div>
+                    </div>
+                    <!-- Comment List End -->
+                </div>
+                <div class="col-lg-4">
+                    <!-- Newsletter Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Newsletter</h4>
+                        </div>
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            <p>
+                                Subscribe to get latest updates from <a href="/profile/{{ post.author }}">{{ post.author }}</a>
+                            </p>
+                            <form action="{% url 'blog:subscribe' %}" method="POST">
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                <input type="hidden" name="author_id" value="{{ post.author_id }}">
+                                <input class="btn-outline bg-dark text-white"type="submit" value="Subscribe">
+                            </form>
+                            <small>you will be notified when <a href="/profile/{{ post.author }}">{{ post.author }}</a> will add post.</small>
+                        </div>
+                    </div>
+                    <!-- Newsletter End -->
+                    <!-- Tags Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Tags</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            <div class="d-flex flex-wrap m-n1">
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Politics</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Corporate</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Health</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Education</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Science</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Foods</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Travel</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tags End -->
+                </div>
+            </div>
+            <div class="deleteWarning">
+                <p>
+                    are you sure you want to delete this post?
+                </p>
+                <div class="row container_form">
+                    <span>
+                        <form action="{% url 'blog:deletePost' %}" method="GET">
+                            <input type="hidden" name="post_id" id="post_id"value="{{ post.id }}">
+                            {% comment %} <a role="button" class="btn" type="submit">yes</a><a class="btn" role="button" onclick="deletePostPopup()">no</a> {% endcomment %}
+                            <button class="btn" onclick="/deletePost">
+                                yes
+                            </button>
+                        </form>
+                    </span>
+                    <span>
+                        <button class="btn" onclick="deletePostPopup()">
+                            no
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="hideWarning">
+                <p>
+                    are you sure you want to hide this post?
+                </p>
+                <div class="row container_form">
+                    <span>
+                        <form action="{% url 'blog:hidePost' %}" method="GET">
+                            <input type="hidden" name="post_id" id="post_id"value="{{ post.id }}">
+                            {% comment %} <a role="button" class="btn" type="submit">yes</a><a class="btn" role="button" onclick="deletePostPopup()">no</a> {% endcomment %}
+                            <button class="btn" onclick="/hidePost">
+                                yes
+                            </button>
+                        </form>
+                    </span>
+                    <span>
+                        <button class="btn" onclick="hidePostPopup()">
+                            no
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- News With Sidebar End -->
+    <!-- Footer Start -->
+    <script type="text/javascript">
+        function deletePostPopup(){
+            $(".deleteWarning").toggle();
+            
+        }
+        function hidePostPopup(){
+            $(".hideWarning").toggle();
+            
+        }
+    </script>
+    <script type="text/javascript" src={% static 'js/t.js' %}>
+    </script>
+{% endblock content %}

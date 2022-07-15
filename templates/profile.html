@@ -1,0 +1,672 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block customstyle %}
+    <style>
+    body {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 14px;
+        background: #f2f2f2;
+   }
+    .clearfix:after {
+        content: "";
+        display: block;
+        clear: both;
+        visibility: hidden;
+        height: 0;
+   }
+    .container_form{
+        align-items: center;
+        width: fit-content;
+    }
+    .form_wrapper {
+        background: #fff;
+        width: 90%%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 25px;
+        margin: 0 auto 0;
+        position: relative;
+        z-index: 1;
+        {% comment %} border-top: 5px solid #f5ba1a; {% endcomment %}
+        -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+        -webkit-transform-origin: 50% 0%;
+        transform-origin: 50% 0%;
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+        -webkit-transition: none;
+        transition: none;
+        -webkit-animation: expand 0.8s 0.6s ease-out forwards;
+        animation: expand 0.8s 0.6s ease-out forwards;
+        opacity: 0;
+   }
+    .form_wrapper h2 {
+        font-size: 1.5em;
+        line-height: 1.5em;
+        margin: 0;
+   }
+    .form_wrapper .title_container {
+        text-align: center;
+        padding-bottom: 15px;
+   }
+    .form_wrapper h3 {
+        font-size: 1.1em;
+        font-weight: normal;
+        line-height: 1.5em;
+        margin: 0;
+   }
+    .form_wrapper label {
+        font-size: 12px;
+   }
+    .form_wrapper .row {
+        margin: 10px -15px;
+   }
+    .form_wrapper .row > div {
+        padding: 0 15px;
+        box-sizing: border-box;
+   }
+    .form_wrapper .col_half {
+        width: 50%;
+        float: left;
+   }
+    .form_wrapper .input_field {
+        position: relative;
+        margin-bottom: 20px;
+        -webkit-animation: bounce 0.6s ease-out;
+        animation: bounce 0.6s ease-out;
+   }
+    .form_wrapper .input_field > span {
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #333;
+        height: 100%;
+        border-right: 1px solid #ccc;
+        text-align: center;
+        width: 30px;
+   }
+    .form_wrapper .input_field > span > i {
+        padding-top: 10px;
+   }
+    .form_wrapper .textarea_field > span > i {
+        padding-top: 10px;
+   }
+    .form_wrapper input[type="text"], .form_wrapper input[type="email"], .form_wrapper input[type="password"] {
+        width: 100%;
+        padding: 8px 10px 9px 35px;
+        height: 35px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        outline: none;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+   }
+    .form_wrapper input[type="text"]:hover, .form_wrapper input[type="email"]:hover, .form_wrapper input[type="password"]:hover {
+        background: #fafafa;
+   }
+    .form_wrapper input[type="text"]:focus, .form_wrapper input[type="email"]:focus, .form_wrapper input[type="password"]:focus {
+        -webkit-box-shadow: 0 0 2px 1px rgba(255, 169, 0, 0.5);
+        -moz-box-shadow: 0 0 2px 1px rgba(255, 169, 0, 0.5);
+        box-shadow: 0 0 2px 1px rgba(255, 169, 0, 0.5);
+        border: 1px solid #f5ba1a;
+        background: #fafafa;
+   }
+    .form_wrapper input[type="submit"] {
+        {% comment %} background: #f5ba1a; {% endcomment %}
+        height: 35px;
+        line-height: 35px;
+        width: 100%;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        color: #fff;
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+   }
+    .form_wrapper input[type="submit"]:hover {
+        background: #e1a70a;
+   }
+    .form_wrapper input[type="submit"]:focus {
+        background: #e1a70a;
+   }
+    .form_wrapper input[type="checkbox"], .form_wrapper input[type="radio"] {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+   }
+    .form_container .row .col_half.last {
+        border-left: 1px solid #ccc;
+   }
+    .checkbox_option label {
+        margin-right: 1em;
+        position: relative;
+   }
+    .checkbox_option label:before {
+        content: "";
+        display: inline-block;
+        width: 0.5em;
+        height: 0.5em;
+        margin-right: 0.5em;
+        vertical-align: -2px;
+        border: 2px solid #ccc;
+        padding: 0.12em;
+        background-color: transparent;
+        background-clip: content-box;
+        transition: all 0.2s ease;
+   }
+    .checkbox_option label:after {
+        border-right: 2px solid #000;
+        border-top: 2px solid #000;
+        content: "";
+        height: 20px;
+        left: 2px;
+        position: absolute;
+        top: 7px;
+        transform: scaleX(-1) rotate(135deg);
+        transform-origin: left top;
+        width: 7px;
+        display: none;
+   }
+    .checkbox_option input:hover + label:before {
+        border-color: #000;
+   }
+    .checkbox_option input:checked + label:before {
+        border-color: #000;
+   }
+    .checkbox_option input:checked + label:after {
+        -moz-animation: check 0.8s ease 0s running;
+        -webkit-animation: check 0.8s ease 0s running;
+        animation: check 0.8s ease 0s running;
+        display: block;
+        width: 7px;
+        height: 20px;
+        border-color: #000;
+   }
+    .radio_option label {
+        margin-right: 1em;
+   }
+    .radio_option label:before {
+        content: "";
+        display: inline-block;
+        width: 0.5em;
+        height: 0.5em;
+        margin-right: 0.5em;
+        border-radius: 100%;
+        vertical-align: -3px;
+        border: 4px solid #ccc;
+        padding: 0.15em;
+        background-color: transparent;
+        {% comment %} background-clip: content-box; {% endcomment %}
+        transition: all 0.2s ease;
+   }
+    .radio_option input:hover + label:before {
+        border-color: #000;
+   }
+    .radio_option input:checked + label:before {
+        background-color: #000;
+        border-color: #000;
+   }
+    .select_option {
+        position: relative;
+        width: 100%;
+   }
+    .select_option select {
+        display: inline-block;
+        width: 100%;
+        height: 35px;
+        padding: 0px 15px;
+        cursor: pointer;
+        color: #7b7b7b;
+        border: 1px solid #ccc;
+        border-radius: 0;
+        background: #fff;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        transition: all 0.2s ease;
+   }
+    .select_option select::-ms-expand {
+        display: none;
+   }
+    .select_option select:hover, .select_option select:focus {
+        color: #000;
+        background: #fafafa;
+        border-color: #000;
+        outline: none;
+   }
+    .select_arrow {
+        position: absolute;
+        top: calc(50% - 4px);
+        right: 15px;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+        border-width: 8px 5px 0 5px;
+        border-style: solid;
+        border-color: #7b7b7b transparent transparent transparent;
+   }
+    .select_option select:hover + .select_arrow, .select_option select:focus + .select_arrow {
+        border-top-color: #000;
+   }
+    .credit {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 15px;
+        color: #f5ba1a;
+   }
+    .credit a {
+        color: #e1a70a;
+   }
+    @-webkit-keyframes check {
+        0% {
+            height: 0;
+            width: 0;
+       }
+        25% {
+            height: 0;
+            width: 7px;
+       }
+        50% {
+            height: 20px;
+            width: 7px;
+       }
+   }
+    @keyframes check {
+        0% {
+            height: 0;
+            width: 0;
+       }
+        25% {
+            height: 0;
+            width: 7px;
+       }
+        50% {
+            height: 20px;
+            width: 7px;
+       }
+   }
+    @-webkit-keyframes expand {
+        0% {
+            -webkit-transform: scale3d(1, 0, 1);
+            opacity: 0;
+       }
+        25% {
+            -webkit-transform: scale3d(1, 1.2, 1);
+       }
+        50% {
+            -webkit-transform: scale3d(1, 0.85, 1);
+       }
+        75% {
+            -webkit-transform: scale3d(1, 1.05, 1);
+       }
+        100% {
+            -webkit-transform: scale3d(1, 1, 1);
+            opacity: 1;
+       }
+   }
+    @keyframes expand {
+        0% {
+            -webkit-transform: scale3d(1, 0, 1);
+            transform: scale3d(1, 0, 1);
+            opacity: 0;
+       }
+        25% {
+            -webkit-transform: scale3d(1, 1.2, 1);
+            transform: scale3d(1, 1.2, 1);
+       }
+        50% {
+            -webkit-transform: scale3d(1, 0.85, 1);
+            transform: scale3d(1, 0.85, 1);
+       }
+        75% {
+            -webkit-transform: scale3d(1, 1.05, 1);
+            transform: scale3d(1, 1.05, 1);
+       }
+        100% {
+            -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+            opacity: 1;
+       }
+   }
+    @-webkit-keyframes bounce {
+        0% {
+            -webkit-transform: translate3d(0, -25px, 0);
+            opacity: 0;
+       }
+        25% {
+            -webkit-transform: translate3d(0, 10px, 0);
+       }
+        50% {
+            -webkit-transform: translate3d(0, -6px, 0);
+       }
+        75% {
+            -webkit-transform: translate3d(0, 2px, 0);
+       }
+        100% {
+            -webkit-transform: translate3d(0, 0, 0);
+            opacity: 1;
+       }
+   }
+    @keyframes bounce {
+        0% {
+            -webkit-transform: translate3d(0, -25px, 0);
+            transform: translate3d(0, -25px, 0);
+            opacity: 0;
+       }
+        25% {
+            -webkit-transform: translate3d(0, 10px, 0);
+            transform: translate3d(0, 10px, 0);
+       }
+        50% {
+            -webkit-transform: translate3d(0, -6px, 0);
+            transform: translate3d(0, -6px, 0);
+       }
+        75% {
+            -webkit-transform: translate3d(0, 2px, 0);
+            transform: translate3d(0, 2px, 0);
+       }
+        100% {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
+       }
+   }
+    @media (max-width: 600px) {
+        .form_wrapper .col_half {
+            width: 100%;
+            float: none;
+       }
+        .bottom_row .col_half {
+            width: 50%;
+            float: left;
+       }
+        .form_container .row .col_half.last {
+            border-left: none;
+       }
+        .remember_me {
+            padding-bottom: 20px;
+       }
+   }
+    
+    </style>
+{% endblock customstyle %}
+<!-- Navbar End -->
+{% block content %}
+    <section class="h-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                {% if user.username == req_user.username %}
+                    <h2>Update Profile</h2>
+                {% else %}
+                    <h2>User Details</h2>
+                {% endif %}
+            </div>
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-lg-9 col-xl-7">
+                    <div class="card">
+                        <div class="rounded-top text-white d-flex flex-row"
+                             style="background-color: #000;
+                                    height:200px;">
+                            <div class="ms-4 mt-5 mx-2 d-flex flex-column" style="width: 150px;">
+                                <img src="/media/{{ req_user.profile_image }}"
+                                     alt="Generic placeholder image"
+                                     class="img-fluid img-thumbnail mt-4 mb-2"
+                                     style="width: 150px; z-index: 1">
+                            </div>
+                            <div class="ms-3" style="margin-top: 130px;">
+                                <h5 class="text-white">{{ req_user.first_name }} {{ req_user.last_name }}</h5>
+                                <p class="text-white">
+                                    {{ req_user.city }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                            <div class="d-flex justify-content-end text-center py-1">
+                                <div>
+                                    <p class="mb-1 h5">
+                                        {{ count }}
+                                    </p>
+                                    <p class="small text-muted mb-0">
+                                        {% if count == 0 %}
+                                            Post
+                                        {% elif count == 1 %}
+                                            Post
+                                        {% else %}
+                                            Posts
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="userDetails" style="display:block">
+                            <div class="card-body p-4 text-black">
+                                <div class="mb-0">
+                                    <p class="lead fw-normal mb-1">
+                                        About
+                                    </p>
+                                    <div id="aboutDetails" class="p-4" style="background-color: #f8f9fa">
+                                        <p class="font-italic mb-1">
+                                            {{ req_user.profession }}
+                                        </p>
+                                        <p class="font-italic mb-1">
+                                            Lives in {{ req_user.city }}
+                                        </p>
+                                        <p class="font-italic mb-1">
+                                            <span><i class="fa-solid fa-cake-candles"></i></span>
+                                            <span>{{ req_user.dob }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-4 text-black">
+                                <div class="mb-0">
+                                    <p class="lead fw-normal mb-1">
+                                        Contact Details
+                                    </p>
+                                    <div id="contactDetails"
+                                         class="p-4"
+                                         style="background-color: #f8f9fa;display:block">
+                                        <p class="font-italic mb-1">
+                                            Email: {{ req_user.email }}
+                                        </p>
+                                        <p class="font-italic mb-1">
+                                            Phone: {{ req_user.phone }}
+                                        </p>
+                                        <p class="font-italic mb-1">
+                                            Address: {{ req_user.address }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="updateUserDetails" style="display:none">
+                            <div class="form_wrapper">
+                                <div class="form_container">
+                                    <div class="row clearfix">
+                                        <form method="POST"
+                                              action="/profile/{{ req_user.username }}"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="row clearfix">
+                                                <div class="col_half">
+                                                    <div class="input_field">
+                                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                                        <input type="text"
+                                                               name="newFname"
+                                                               id="newFname"
+                                                               placeholder="First Name"
+                                                               value="{{ req_user.first_name }}"
+                                                               required/>
+                                                    </div>
+                                                </div>
+                                                <div class="col_half">
+                                                    <div class="input_field">
+                                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                                        <input type="text"
+                                                               name="newLname"
+                                                               id="newLname"
+                                                               placeholder="Last Name"
+                                                               value="{{ req_user.last_name }}"
+                                                               required/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="input_field">
+                                                <span><i aria-hidden="true" class="fa fa-user-tie"></i></span>
+                                                <input type="text"
+                                                       name="newProfession"
+                                                       id="newProfession"
+                                                       value="{{ req_user.profession }}"
+                                                       placeholder="Profession"
+                                                       required/>
+                                            </div>
+                                            <div class="input_field">
+                                                <span><i aria-hidden="true" class="fa fa-city"></i></span>
+                                                <input type="text"
+                                                       name="newCity"
+                                                       id="newCity"
+                                                       value="{{ req_user.city }}"
+                                                       placeholder="City"
+                                                       required/>
+                                            </div>
+                                            <div class="input_field">
+                                                <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                                                <input type="email"
+                                                       name="newEmail"
+                                                       id="newEmail"
+                                                       value="{{ req_user.email }}"
+                                                       placeholder="Email"
+                                                       required/>
+                                            </div>
+                                            <div class="input_field">
+                                                <span><i aria-hidden="true" class="fa fa-phone"></i></span>
+                                                <input type="text"
+                                                       name="newPhone"
+                                                       id="newPhone"
+                                                       value="{{ req_user.phone }}"
+                                                       placeholder="Phone Number"
+                                                       required/>
+                                            </div>
+                                            <div class="input_field">
+                                                <span><i aria-hidden="true" class="fa-solid fa-calendar-check"></i></span>
+                                                <input type="date"
+                                                       name="newDOB"
+                                                       id="newDOB"
+                                                       value="{{ req_user.dob }}"
+                                                       placeholder="Date of birth"/>
+                                            </div>
+                                            <div class="input_field">
+                                                <span><i aria-hidden="true" class="fa fa-location-dot"></i></span>
+                                                <input type="text"
+                                                       name="newAddress"
+                                                       id="newAddress"
+                                                       value="{{ req_user.address }}"
+                                                       placeholder="Address"
+                                                       required/>
+                                            </div>
+                                            <div>
+                                                <input type="file" name="newProfilePic" id="newProfilePic"/>
+                                                <span>Please upload your profile image</span>
+                                            </div>
+                                            <br>
+                                            <input class="bg-dark text-white" type="submit" value="UPDATE" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if req_user.username == user.username %}
+                            <div class="card-body p-4 text-black">
+                                <div class="mb-0">
+                                    <p class="lead fw-normal mb-1">
+                                        <button class="updateButton btn-outline bg-dark text-white"
+                                                onclick="profileUpdate()">Update Details</button>
+                                    </p>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="card-body p-4 text-black">
+                            <div class="mb-0">
+                                <p class="lead fw-normal mb-1">
+                                    Recent Posts
+                                </p>
+                                <div class="p-4" style="background-color: #f8f9fa;">
+                                    {% if count == 0 %}
+                                        <h2>No posts</h2>
+                                    {% else %}
+                                        <div id="carouselExampleControls"
+                                             class="carousel slide col-md-12"
+                                             data-ride="carousel">
+                                            <div class="carousel-inner">
+                                                {% comment %} <div class="carousel-item active col-md-12">
+                                                <div class="card" style="width: 100%;">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ posts.0.title }}</h5>
+                                                        <p class="card-text">
+                                                            {{ posts.0.content|truncatechars:100 }}
+                                                        </p>
+                                                        <a href="#" class="btn btn-outlined bg-dark text-white">Go somewhere</a>
+                                                    </div>
+                                                </div>
+                                                </div> {% endcomment %}
+                                                {% for post in posts %}
+                                                    <div class="carousel-item col-md-12 {% if forloop.first %}active{% endif %}">
+                                                        <div class="card" style="width: 100%;">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">{{ post.title }}</h5>
+                                                                <p class="card-text">
+                                                                    {{ post.content|truncatechars:100 }}
+                                                                </p>
+                                                                <a href="/blogpost/{{ post.slug }}"
+                                                                   class="btn btn-outlined bg-dark text-white">Read</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            <a class="carousel-control-prev"
+                                               href="#carouselExampleControls"
+                                               role="button"
+                                               data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next"
+                                               href="#carouselExampleControls"
+                                               role="button"
+                                               data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+function profileUpdate(){
+    $("#updateUserDetails").show();
+    $("#userDetails").hide();
+    $(".updateButton").hide();
+}
+    </script>
+{% endblock content %}
+<!-- Footer Start -->
