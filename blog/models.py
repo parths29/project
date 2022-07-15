@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from datetime import datetime
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
@@ -47,7 +46,8 @@ class Account(AbstractUser):
                                       default='images/default_user_image.png')
     hide_email = models.BooleanField(default=True)
     groups = models.ManyToManyField(blank=True,
-                                    help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
+                                    help_text='The groups this user belongs to. A user will get all permissions '
+                                              'granted to each of their groups.',
                                     related_name='user_set_custom', related_query_name='user', to='auth.Group',
                                     verbose_name='groups')
     user_permissions = models.ManyToManyField(blank=True, help_text='Specific permissions for this user.',
