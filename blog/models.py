@@ -100,7 +100,7 @@ class Category(models.Model):
 
 class Blog(models.Model):
     id = models.AutoField(primary_key=True)
-    title = models.CharField(unique=False, max_length=500)
+    title = models.CharField(unique=True, max_length=500)
     slug = models.CharField(unique=True, max_length=500)
     author = models.ForeignKey(to=Account, on_delete=models.CASCADE)
     img_file = models.ImageField(upload_to='images/blog')
