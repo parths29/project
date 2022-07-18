@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-6zftr!q)pi45+e5xih1o!k9=c*1o04$7zufse!mb5tt#+k!)s!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['139.59.95.41']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -66,7 +66,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -185,7 +185,7 @@ CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 
 AUTH_USER_MODEL = 'blog.Account'
 
-CSRF_TRUSTED_ORIGINS = ['https://*.in.ngrok.io', 'https://*.127.0.0.1', 'http://*.192.168.70.235']
+CSRF_TRUSTED_ORIGINS = ['http://*.192.168.70.235', 'http://*.139.59.95.41:8000/']
 
 SESSION_COOKIE_AGE = 300
 
