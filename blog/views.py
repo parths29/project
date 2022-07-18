@@ -256,4 +256,5 @@ def subscribe(request):
         if following_user_id != follower_user_id:
             subscriber = Subscriber(following_user_id=following_user_id, follower_user_id=follower_user_id)
             subscriber.save()
+
         return redirect(f"/blogpost/{post.slug}")
