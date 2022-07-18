@@ -56,7 +56,7 @@ INSTALLED_APPS = [
 #         # credentials, or list them here:
 #         'APP': {
 #             'client_id': '528626527812-ksq49j2adkfmq16rib24355dmd1ukak8.apps.googleusercontent.com',
-#             'secret': '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',
+#             'secret': '',
 #             'key': ''
 #         }
 #     }
