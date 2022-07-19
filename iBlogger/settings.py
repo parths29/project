@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
 import mimetypes
+from dotenv import load_dotenv
 
 mimetypes.add_type("text/css", ".css", True)
 
@@ -66,7 +67,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -195,9 +196,11 @@ CACHES = {
         'LOCATION': 'home_cache',
     }
 }
+
+load_dotenv()
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'testingonpython@gmail.com'
-EMAIL_HOST_PASSWORD = 'zcjkfgkaqhzclitk'
+EMAIL_HOST_USER = os.environ.get('GMAIL_USERNAME')
+EMAIL_HOST_PASSWORD = os.environ.get('GMAIL_PASSWORD_KEY')
