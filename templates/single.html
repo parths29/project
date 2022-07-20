@@ -73,6 +73,7 @@
                         <div class="bg-light mb-3" style="padding: 30px;">
                             <div class="contact-form bg-light mb-3" style="padding: 30px;">
                                 {% if user.is_authenticated %}
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                     <form name="comment_form"
                                           id="comment_form"
                                           novalidate="novalidate"

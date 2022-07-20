@@ -19,9 +19,7 @@
                     <a class="text-secondary font-weight-bold"
                        href="/profile/{{ comment.user.username }}">{{ comment.user.username }}</a> <small><i>{{ comment.time_stamp }}</i></small>
                 </h6>
-                <p id='comment_id' value="{{ comment.id }}">
-                    {{ comment.comment }}
-                </p>
+                <p id='comment_id' value="{{ comment.id }}">{{ comment.comment }}</p>
                 <p>
                     <div class="replies">
                         {% for reply in replies %}
@@ -35,9 +33,7 @@
                                         <h6>
                                             <a href="/profile/{{ reply.user.username }}">{{ reply.user.username }}</a> <small><i>{{ reply.time_stamp }}</i></small>
                                         </h6>
-                                        <p>
-                                            {{ reply.reply }}
-                                        </p>
+                                        <p>{{ reply.reply }}</p>
                                     </div>
                                 </div>
                             {% endif %}
@@ -68,13 +64,22 @@
                                   name="reply"
                                   placeholder="Enter your reply"></textarea>
                         {% comment %} <input type="hidden"
-                               name="comment_id"
-                               id="comment_id"
-                               value="{{ comment.id }}"> {% endcomment %}
+        name="comment_id"
+        id="comment_id"
+        value="{{ comment.id }}"> {% endcomment %}
                         <input type="hidden" name="user_id" id="user_id" value="{{ user.id }}">
                         <input type="hidden" name="post_id" id="post_id" value="{{ post.id }}">
+                        <input type="hidden"
+                               name="csrf_token"
+                               id="csrf_token"
+                               value="{{ csrf_token }}">
                         <button class="btn btn-outline btn-sm mt-1 bg-dark text-white postReplyButton"
-                                type="button" value="{{comment.id}}" id='comm_coll' onclick="comment_reply({{comment.id}})">Post</button>
+                                type="button"
+                                value="{{ comment.id }}"
+                                id='comm_coll'
+                                onclick="comment_reply({{ comment.id }})">
+                            Post
+                        </button>
                     </form>
                 </div>
             </div>

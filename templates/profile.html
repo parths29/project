@@ -428,17 +428,13 @@
                             </div>
                             <div class="ms-3" style="margin-top: 130px;">
                                 <h5 class="text-white">{{ req_user.first_name }} {{ req_user.last_name }}</h5>
-                                <p class="text-white">
-                                    {{ req_user.city }}
-                                </p>
+                                <p class="text-white">{{ req_user.city }}</p>
                             </div>
                         </div>
                         <div class="p-4 text-black" style="background-color: #f8f9fa;">
                             <div class="d-flex justify-content-end text-center py-1">
                                 <div>
-                                    <p class="mb-1 h5">
-                                        {{ count }}
-                                    </p>
+                                    <p class="mb-1 h5">{{ count }}</p>
                                     <p class="small text-muted mb-0">
                                         {% if count == 0 %}
                                             Post
@@ -454,16 +450,10 @@
                         <div id="userDetails" style="display:block">
                             <div class="card-body p-4 text-black">
                                 <div class="mb-0">
-                                    <p class="lead fw-normal mb-1">
-                                        About
-                                    </p>
+                                    <p class="lead fw-normal mb-1">About</p>
                                     <div id="aboutDetails" class="p-4" style="background-color: #f8f9fa">
-                                        <p class="font-italic mb-1">
-                                            {{ req_user.profession }}
-                                        </p>
-                                        <p class="font-italic mb-1">
-                                            Lives in {{ req_user.city }}
-                                        </p>
+                                        <p class="font-italic mb-1">{{ req_user.profession }}</p>
+                                        <p class="font-italic mb-1">Lives in {{ req_user.city }}</p>
                                         <p class="font-italic mb-1">
                                             <span><i class="fa-solid fa-cake-candles"></i></span>
                                             <span>{{ req_user.dob }}</span>
@@ -473,21 +463,13 @@
                             </div>
                             <div class="card-body p-4 text-black">
                                 <div class="mb-0">
-                                    <p class="lead fw-normal mb-1">
-                                        Contact Details
-                                    </p>
+                                    <p class="lead fw-normal mb-1">Contact Details</p>
                                     <div id="contactDetails"
                                          class="p-4"
                                          style="background-color: #f8f9fa;display:block">
-                                        <p class="font-italic mb-1">
-                                            Email: {{ req_user.email }}
-                                        </p>
-                                        <p class="font-italic mb-1">
-                                            Phone: {{ req_user.phone }}
-                                        </p>
-                                        <p class="font-italic mb-1">
-                                            Address: {{ req_user.address }}
-                                        </p>
+                                        <p class="font-italic mb-1">Email: {{ req_user.email }}</p>
+                                        <p class="font-italic mb-1">Phone: {{ req_user.phone }}</p>
+                                        <p class="font-italic mb-1">Address: {{ req_user.address }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -500,6 +482,7 @@
                                               action="/profile/{{ req_user.username }}"
                                               enctype="multipart/form-data">
                                             {% csrf_token %}
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                             <div class="row clearfix">
                                                 <div class="col_half">
                                                     <div class="input_field">
@@ -600,9 +583,7 @@
                         {% endif %}
                         <div class="card-body p-4 text-black">
                             <div class="mb-0">
-                                <p class="lead fw-normal mb-1">
-                                    Recent Posts
-                                </p>
+                                <p class="lead fw-normal mb-1">Recent Posts</p>
                                 <div class="p-4" style="background-color: #f8f9fa;">
                                     {% if count == 0 %}
                                         <h2>No posts</h2>
@@ -615,9 +596,7 @@
                                                 <div class="card" style="width: 100%;">
                                                     <div class="card-body">
                                                         <h5 class="card-title">{{ posts.0.title }}</h5>
-                                                        <p class="card-text">
-                                                            {{ posts.0.content|truncatechars:100 }}
-                                                        </p>
+                                                        <p class="card-text">{{ posts.0.content|truncatechars:100 }}</p>
                                                         <a href="#" class="btn btn-outlined bg-dark text-white">Go somewhere</a>
                                                     </div>
                                                 </div>
@@ -627,9 +606,7 @@
                                                         <div class="card" style="width: 100%;">
                                                             <div class="card-body">
                                                                 <h5 class="card-title">{{ post.title }}</h5>
-                                                                <p class="card-text">
-                                                                    {{ post.content|truncatechars:100 }}
-                                                                </p>
+                                                                <p class="card-text">{{ post.content|truncatechars:100 }}</p>
                                                                 <a href="/blogpost/{{ post.slug }}"
                                                                    class="btn btn-outlined bg-dark text-white">Read</a>
                                                             </div>

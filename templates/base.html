@@ -225,5 +225,8 @@
             <!--KEBAB js-->
             <script src="{% static 'js/kebab.js' %}"></script>
             <script type="text/javascript" src={% static 'js/t.js' %}></script>
+            <script type="text/javascript">
+                var csrf_token = '{% csrf_token %}';
+            </script>
         </body>
     </html>
