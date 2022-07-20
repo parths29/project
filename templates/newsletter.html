@@ -15,7 +15,7 @@
                    value="{{ post.author_id }}">
             <button class="btn-outline bg-dark text-white"
                     type="button"
-                    onclick="Unsubscribe()">Unsubscribe</button>
+                    onclick="unsubscribe()">Unsubscribe</button>
         </form>
         <small>you will be notified when <a href="/profile/{{ post.author }}">{{ post.author }}</a> will add post.</small>
     {% else %}
