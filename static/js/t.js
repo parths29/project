@@ -54,3 +54,19 @@ function subscribe() {
         }
     })
 }
+function unsubscribe() {
+    console.log('unsubscribe button clicked.');
+    var post_id = $('#post_id').val();
+    var user_id = $('#user_id').val();
+    var author_id = $('#author_id').val();
+    var csr = $('input[name=csrfmiddlewaretoken]').val();
+    my_data = { user_id: user_id, post_id: post_id, author_id: author_id, csrfmiddlewaretoken: csr };
+    $.ajax({
+        url: '/unsubscribe/',
+        method: "POST",
+        data: my_data,
+        success: function (data) {
+            $('#newsletter').load(location.href + " #newsletter");
+        }
+    })
+}

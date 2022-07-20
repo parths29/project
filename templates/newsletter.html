@@ -1,0 +1,38 @@
+<div class="section-title mb-0">
+    <h4 class="m-0 text-uppercase font-weight-bold">Newsletter</h4>
+</div>
+<div class="bg-white text-center border border-top-0 p-3">
+    {% if is_following %}
+        <p>
+            You are following <a href="/profile/{{ post.author }}">{{ post.author }}</a>.
+        </p>
+        <form action="{% url 'blog:unsubscribe' %}" method="POST">
+            <input type="hidden" name="post_id" value="{{ post.id }}">
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <input type="hidden"
+                   name="author_id"
+                   id="author_id"
+                   value="{{ post.author_id }}">
+            <button class="btn-outline bg-dark text-white"
+                    type="button"
+                    onclick="unsubscribe()">Unsubscribe</button>
+        </form>
+        <small>you will be notified when <a href="/profile/{{ post.author }}">{{ post.author }}</a> will add post.</small>
+    {% else %}
+        <p>
+            Subscribe to get latest updates from <a href="/profile/{{ post.author }}">{{ post.author }}</a>
+        </p>
+        <form action="." method="POST">
+            <input type="hidden" name="post_id" value="{{ post.id }}">
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <input type="hidden"
+                   name="author_id"
+                   id="author_id"
+                   value="{{ post.author_id }}">
+            <button class="btn-outline bg-dark text-white"
+                    type="button"
+                    onclick="subscribe()">Subscribe</button>
+        </form>
+        <small>you will be notified when <a href="/profile/{{ post.author }}">{{ post.author }}</a> will add post.</small>
+    {% endif %}
+</div>
