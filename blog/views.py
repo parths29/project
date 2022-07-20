@@ -120,12 +120,17 @@ def add_post(request):
 
 def blog_post(request, slug):
     request.session.modified = True
+    is_following = False
     post = Blog.objects.get(slug=slug)
     if request.user.is_authenticated:
         post.viewers.add(request.user)
     comments = Comment.objects.filter(post=post)
     replies = Reply.objects.filter(post=post)
-    context = {'post': post, 'comments': comments, 'replies': replies}
+    followers_data = list(Subscriber.objects.filter(following_user_id=post.author_id).values("follower_user_id"))
+    followers = [i["follower_user_id"] for i in followers_data]
+    if request.user.id in followers:
+        is_following = True
+    context = {'post': post, 'comments': comments, 'replies': replies, 'is_following': is_following}
 
     return render(request, 'single.html',
                   context=context)
@@ -262,8 +267,10 @@ def profile(request, username):
     return render(request, 'profile.html', context={'count': count, 'req_user': my_user, 'posts': posts})
 
 
+@login_required()
 def subscribe(request):
     request.session.modified = True
+    is_following = False
     if request.method == "POST":
         post_id = request.POST['post_id']
         post = Blog.objects.get(id=post_id)
@@ -275,4 +282,26 @@ def subscribe(request):
             subscriber = Subscriber(following_user_id=following_user_id, follower_user_id=follower_user_id)
             subscriber.save()
 
-        return redirect(f"/blogpost/{post.slug}")
+        followers_data = list(Subscriber.objects.filter(following_user_id=post.author_id).values("follower_user_id"))
+        followers = [i["follower_user_id"] for i in followers_data]
+        if request.user.id in followers:
+            is_following = True
+        return JsonResponse({'is_following': is_following})
+
+
+@login_required()
+def unsubscribe(request):
+    request.session.modified = True
+    is_following = True
+    if request.method == "POST":
+        post_id = request.POST['post_id']
+        post = Blog.objects.get(id=post_id)
+        follower_id = request.POST.get('user_id')
+        following_id = request.POST.get('author_id')
+        follower_user_id = Account.objects.get(id=follower_id)
+        following_user_id = Account.objects.get(id=following_id)
+        if following_user_id != follower_user_id:
+            subscriber = Subscriber.objects.get(following_user_id=following_user_id, follower_user_id=follower_user_id)
+            subscriber.delete()
+            is_following = False
+    return redirect(f"/blogpost/{post.slug}")

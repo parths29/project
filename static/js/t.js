@@ -38,3 +38,19 @@ function comment_reply(cmnt_id) {
     $(".reply").val('');
     // });
 }
+function subscribe() {
+    console.log('subscribe button clicked.');
+    var post_id = $('#post_id').val();
+    var user_id = $('#user_id').val();
+    var author_id = $('#author_id').val();
+    var csr = $('input[name=csrfmiddlewaretoken]').val();
+    my_data = { user_id: user_id, post_id: post_id, author_id: author_id, csrfmiddlewaretoken: csr };
+    $.ajax({
+        url: '/subscribe/',
+        method: "POST",
+        data: my_data,
+        success: function (data) {
+            $('#newsletter').load(location.href + " #newsletter");
+        }
+    })
+}
