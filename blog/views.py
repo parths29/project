@@ -24,7 +24,8 @@ def home(request):
     paginator = Paginator(all_posts, 10, orphans=3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
-    return render(request, 'index.html', context={'posts': posts, 'trending': trending_loaded})
+    context = {'posts': posts, 'trending': trending_loaded}
+    return render(request, 'index.html', context=context)
 
 
 def contact(request):
@@ -93,8 +94,8 @@ def signup(request):
     #     else:
     #         messages.add_message(request, messages.ERROR,
     #                              ('Password and confirm password does not match. Please try again!'))
-
-    return render(request, 'registration/signup.html', context={'form': form})
+    context = {'form': form}
+    return render(request, 'registration/signup.html', context=context)
 
 
 @login_required()
@@ -183,7 +184,8 @@ def edit_post(request):
         return redirect("/")
     post_id = request.GET.get('post_id')
     selected_post = Blog.objects.get(id=post_id)
-    return render(request, 'editpost.html', context={'selected_post': selected_post})
+    context = {'selected_post': selected_post}
+    return render(request, 'editpost.html', context=context)
 
 
 @login_required()
@@ -222,7 +224,8 @@ def search(request):
     paginator = Paginator(matching_posts, 10, orphans=3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
-    return render(request, 'search.html', context={'posts': posts})
+    context = {'posts': posts}
+    return render(request, 'search.html', context=context)
 
 
 def category(request, category):
@@ -231,7 +234,8 @@ def category(request, category):
     paginator = Paginator(cat_posts, 10, orphans=3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
-    return render(request, 'category.html', context={'posts': posts})
+    context = {'posts': posts}
+    return render(request, 'category.html', context=context)
 
 
 def profile(request, username):
@@ -264,7 +268,8 @@ def profile(request, username):
     my_user = Account.objects.get(username=username)
     posts = Blog.objects.filter(author_id=my_user.id)
     count = posts.count()
-    return render(request, 'profile.html', context={'count': count, 'req_user': my_user, 'posts': posts})
+    context = {'count': count, 'req_user': my_user, 'posts': posts}
+    return render(request, 'profile.html', context=context)
 
 
 @login_required()
