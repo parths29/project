@@ -160,6 +160,7 @@
     });
 
 })(jQuery);
+// comment
 
 $('#postCommentButton').click(function () {
     console.log('post comment button clicked.');
