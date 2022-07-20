@@ -6,7 +6,7 @@
         <p>
             You are following <a href="/profile/{{ post.author }}">{{ post.author }}</a>.
         </p>
-        <form action="{% url 'blog:unsubscribe' %}" method="POST">
+        <form action="." method="POST">
             <input type="hidden" name="post_id" value="{{ post.id }}">
             <input type="hidden" name="user_id" value="{{ user.id }}">
             <input type="hidden"
