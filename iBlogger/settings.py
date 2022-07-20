@@ -186,7 +186,7 @@ CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 
 AUTH_USER_MODEL = 'blog.Account'
 
-CSRF_TRUSTED_ORIGINS = ['http://*.192.168.70.235', 'http://*.139.59.95.41:8000/']
+CSRF_TRUSTED_ORIGINS = ['139.59.95.41:*']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 300
