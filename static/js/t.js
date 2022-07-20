@@ -54,7 +54,7 @@ function subscribe() {
         }
     })
 }
-function Unsubscribe() {
+function unsubscribe() {
     console.log('unsubscribe button clicked.');
     var post_id = $('#post_id').val();
     var user_id = $('#user_id').val();
