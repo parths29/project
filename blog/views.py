@@ -304,4 +304,4 @@ def unsubscribe(request):
             subscriber = Subscriber.objects.get(following_user_id=following_user_id, follower_user_id=follower_user_id)
             subscriber.delete()
             is_following = False
-    return redirect(f"/blogpost/{post.slug}")
+    return JsonResponse({'is_following': is_following})
