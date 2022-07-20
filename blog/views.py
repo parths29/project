@@ -15,6 +15,7 @@ from django.core.cache import cache
 
 # Create your views here.
 def home(request):
+    request.session.modified = True
     trending_loaded = cache.get('trending_loaded')
     if trending_loaded is None:
         trending_loaded = requests.get('https://inshorts.deta.dev/news?category=national').json()['data'][:10]
@@ -23,15 +24,16 @@ def home(request):
     paginator = Paginator(all_posts, 10, orphans=3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
-    # trending = requests.get('https://inshorts.deta.dev/news?category=national').json()['data'][:18]
     return render(request, 'index.html', context={'posts': posts, 'trending': trending_loaded})
 
 
 def contact(request):
+    request.session.modified = True
     return render(request, 'contact.html')
 
 
 def signup(request):
+    request.session.modified = True
     form = SignUpForm()
     if request.method == 'POST':
         try:
@@ -97,6 +99,7 @@ def signup(request):
 
 @login_required()
 def add_post(request):
+    request.session.modified = True
     if request.method == 'POST':
         title = request.POST.get('title')
         slug = slugify(title)
@@ -116,6 +119,7 @@ def add_post(request):
 
 
 def blog_post(request, slug):
+    request.session.modified = True
     post = Blog.objects.get(slug=slug)
     if request.user.is_authenticated:
         post.viewers.add(request.user)
@@ -129,6 +133,7 @@ def blog_post(request, slug):
 
 @login_required()
 def delete_post(request):
+    request.session.modified = True
     if request.method == "GET":
         post_id = request.GET.get('post_id')
         post = Blog.objects.get(id=post_id)
@@ -138,6 +143,7 @@ def delete_post(request):
 
 @login_required()
 def hide_post(request):
+    request.session.modified = True
     if request.method == "GET":
         post_id = request.GET.get('post_id')
         post = Blog.objects.get(id=post_id)
@@ -148,6 +154,7 @@ def hide_post(request):
 
 @login_required()
 def un_hide_post(request):
+    request.session.modified = True
     post_id = request.GET.get('post_id')
     post = Blog.objects.get(id=post_id)
     post.hidden = False
@@ -157,6 +164,7 @@ def un_hide_post(request):
 
 @login_required()
 def edit_post(request):
+    request.session.modified = True
     if request.method == 'POST':
         new_title = request.POST['new_title']
         new_content = request.POST['new_content']
@@ -175,6 +183,7 @@ def edit_post(request):
 
 @login_required()
 def post_comment(request):
+    request.session.modified = True
     if request.method == 'POST':
         user = Account.objects.get(id=request.POST.get('user_id'))
         post = Blog.objects.get(id=request.POST.get('post_id'))
@@ -187,6 +196,7 @@ def post_comment(request):
 
 @login_required()
 def comment_reply(request):
+    request.session.modified = True
     if request.method == 'POST':
         user = Account.objects.get(id=request.POST.get('user_id'))
         post = Blog.objects.get(id=request.POST.get('post_id'))
@@ -199,6 +209,7 @@ def comment_reply(request):
 
 
 def search(request):
+    request.session.modified = True
     query = request.GET.get('query')
     matching_title = Blog.objects.filter(title__icontains=query)
     matching_content = Blog.objects.filter(content__icontains=query)
@@ -210,6 +221,7 @@ def search(request):
 
 
 def category(request, category):
+    request.session.modified = True
     cat_posts = Blog.objects.filter(category=category)
     paginator = Paginator(cat_posts, 10, orphans=3)
     page = request.GET.get('page')
@@ -218,6 +230,7 @@ def category(request, category):
 
 
 def profile(request, username):
+    request.session.modified = True
     if request.method == "POST":
         new_f_name = request.POST.get('newFname')
         new_l_name = request.POST.get('newLname')
@@ -250,6 +263,7 @@ def profile(request, username):
 
 
 def subscribe(request):
+    request.session.modified = True
     if request.method == "POST":
         post_id = request.POST['post_id']
         post = Blog.objects.get(id=post_id)
