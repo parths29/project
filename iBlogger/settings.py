@@ -198,7 +198,10 @@ CACHES = {
         'OPTIONS': {
             'binary': True,
             'username': 'admin',
-            'password': 'admin'
+            'password': 'admin',
+            'behaviors': {
+                'ketama': True,
+            }
         }
     }
 
