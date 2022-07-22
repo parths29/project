@@ -11,13 +11,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from blog.forms import SignUpForm
 from django.core.paginator import Paginator
 from django.core.cache import cache
-from django.views import View
-
-
-# class based
-class HomeClassBased(View):
-    def get(self, request):
-        return render(request, 'index.html')
 
 
 # Create your views here.
@@ -25,9 +18,9 @@ def home(request):
     request.session.modified = True
     trending_loaded = cache.get('trending_loaded')
     if trending_loaded is None:
-        trending_loaded = requests.get('https://inshorts.deta.dev/news?category=').json()['data']
+        trending_loaded = requests.get('https://inshorts.deta.dev/news?category=hatke').json()['data']
         cache.set('trending_loaded', trending_loaded, 600)
-    all_posts = Blog.objects.filter(hidden=False).order_by('posted_on')
+    all_posts = Blog.objects.filter(hidden=False).order_by('id')
     paginator = Paginator(all_posts, 10, orphans=3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
