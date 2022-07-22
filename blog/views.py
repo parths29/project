@@ -11,6 +11,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from blog.forms import SignUpForm
 from django.core.paginator import Paginator
 from django.core.cache import cache
+from django.views import View
+
+
+# class based
+class HomeClassBased(View):
+    def get(self, request):
+        return render(request, 'index.html')
 
 
 # Create your views here.
