@@ -50,8 +50,9 @@
                         {% for post in posts %}
                             <div class="col-lg-6">
                                 <div class="position-relative mb-3">
-                                    <img class="img-fluid w-100"
+                                    <img class="w-100"
                                          src="/media/{{ post.img_file }}"
+                                         height="243"
                                          style="object-fit: cover;">
                                     <div class="bg-white border border-top-0 p-4">
                                         <div class="mb-2">
@@ -139,7 +140,8 @@
                                             <a class="text-body"><small>{{ post.date }}</small></a>
                                         </div>
                                         <a class="h6 m-0 text-secondary text-uppercase font-weight-bold"
-                                           href="{{ post.readMoreUrl }}" target="_blank">{{ post.title }}</a>
+                                           href="{{ post.readMoreUrl }}"
+                                           target="_blank">{{ post.title }}</a>
                                     </div>
                                 </div>
                             {% endfor %}
