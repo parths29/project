@@ -16,9 +16,16 @@ from django.core.cache import cache
 # Create your views here.
 def home(request):
     request.session.modified = True
+    news_cat = 'hatke'
     trending_loaded = cache.get('trending_loaded')
+    if request.GET.get('category') is not None:
+        news_cat = request.GET.get('category')
+        if news_cat != cache.get('news_cat'):
+            trending_loaded = requests.get(f'https://inshorts.deta.dev/news?category={news_cat}').json()['data']
+            cache.set('trending_loaded', trending_loaded, 600)
+            cache.set('news_cat', news_cat, 600)
     if trending_loaded is None:
-        trending_loaded = requests.get('https://inshorts.deta.dev/news?category=hatke').json()['data']
+        trending_loaded = requests.get(f'https://inshorts.deta.dev/news?category={news_cat}').json()['data']
         cache.set('trending_loaded', trending_loaded, 600)
     all_posts = Blog.objects.filter(hidden=False).order_by('id').reverse()
     paginator = Paginator(all_posts, 10, orphans=3)
