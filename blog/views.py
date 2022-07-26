@@ -20,7 +20,7 @@ def home(request):
     if trending_loaded is None:
         trending_loaded = requests.get('https://inshorts.deta.dev/news?category=hatke').json()['data']
         cache.set('trending_loaded', trending_loaded, 600)
-    all_posts = Blog.objects.filter(hidden=False).order_by('id')
+    all_posts = Blog.objects.filter(hidden=False).order_by('id').reverse()
     paginator = Paginator(all_posts, 10, orphans=3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
