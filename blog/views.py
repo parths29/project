@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from .models import *
@@ -38,6 +38,19 @@ def home(request):
 def contact(request):
     request.session.modified = True
     return render(request, 'contact.html')
+
+
+def login_handle(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("/")
+        else:
+            messages.add_message(request, messages.ERROR, message="email or password is incorrect. please try again")
+    return render(request, 'registration/login.html')
 
 
 def signup(request):

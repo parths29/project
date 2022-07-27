@@ -37,5 +37,5 @@ urlpatterns = [
     path('profile/<str:username>', views.profile, name='profile'),
     path('subscribe/', views.subscribe, name='subscribe'),
     path('unsubscribe/', views.unsubscribe, name='unsubscribe'),
-    # path('login/', views.loginHandle, name='login'),
+    path('login/', views.login_handle, name='login'),
 ]

@@ -111,7 +111,7 @@
                             <a href="{% url 'blog:add_post' %}"
                                class="nav-item nav-link {% block addpostactive %}{% endblock addpostactive %}">Add post</a>
                         {% else %}
-                            <a href="{% url 'login' %}"
+                            <a href="{% url 'blog:login' %}"
                                class="nav-item nav-link {% block loginactive %}{% endblock loginactive %}">Login</a>
                             <a href="{% url 'blog:signUp' %}"
                                class="nav-item nav-link {% block signupactive %}{% endblock signupactive %}">Signup</a>
