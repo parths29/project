@@ -14,7 +14,7 @@ EMAIL_PASSWORD = settings.EMAIL_HOST_PASSWORD
 def send_emails(author, slug):
     author_name = Account.objects.get(id=author)
     subscribers = Subscriber.objects.filter(following_user_id=author)
-    link = f"http://127.0.0.1:8000/blogpost/{slug}"
+    link = f"http://139.59.95.41:8000/blogpost/{slug}"
     email_list = []
     for subscriber in subscribers:
         user = Account.objects.get(username=subscriber.follower_user_id)
