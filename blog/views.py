@@ -224,9 +224,9 @@ def search(request):
     return render(request, 'search.html', context=context)
 
 
-def category(request, category):
+def category(request, cat):
     request.session.modified = True
-    cat_posts = Blog.objects.filter(category=category)
+    cat_posts = Blog.objects.filter(category=cat)
     paginator = Paginator(cat_posts, 10, orphans=3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
@@ -295,8 +295,8 @@ def unsubscribe(request):
     request.session.modified = True
     is_following = True
     if request.method == "POST":
-        post_id = request.POST['post_id']
-        post = Blog.objects.get(id=post_id)
+        # post_id = request.POST['post_id']
+        # post = Blog.objects.get(id=post_id)
         follower_id = request.POST.get('user_id')
         following_id = request.POST.get('author_id')
         follower_user_id = Account.objects.get(id=follower_id)
