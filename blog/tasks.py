@@ -12,17 +12,13 @@ EMAIL_PASSWORD = settings.EMAIL_HOST_PASSWORD
 
 @app.task()
 def send_emails(author, slug):
-    print(f"from email:{FROM_EMAIL}")
-    print(f"email_password:{EMAIL_PASSWORD}")
     author_name = Account.objects.get(id=author)
     subscribers = Subscriber.objects.filter(following_user_id=author)
     link = f"http://139.59.95.41:8000/blogpost/{slug}"
     email_list = []
     for subscriber in subscribers:
         user = Account.objects.get(username=subscriber.follower_user_id)
-        # print(user.email)
         email_list.append(user.email)
-    # print(email_list)
     send_mail(
         subject=f"New post from {author_name}.",
         message=f"Hello,\n\nyour following {author_name} has added a new post.\n\nCheck it out at {link}",
