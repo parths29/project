@@ -104,10 +104,10 @@ def add_post(request):
         img_file = request.FILES.get('img_file')
         content = request.POST.get('content')
         try:
-            category = Category.objects.get(name=request.POST.get('category'))
+            cat = Category.objects.get(name=request.POST.get('category'))
         except ObjectDoesNotExist:
-            category = Category.objects.create(name=request.POST.get('category'))
-        post = Blog(title=title, slug=slug, author=author, img_file=img_file, content=content, category=category)
+            cat = Category.objects.create(name=request.POST.get('category'))
+        post = Blog(title=title, slug=slug, author=author, img_file=img_file, content=content, category=cat)
         post.save()
         messages.add_message(request, messages.SUCCESS, message="Post has been added successfully!")
         send_emails.delay(author.id, slug)
@@ -295,8 +295,6 @@ def unsubscribe(request):
     request.session.modified = True
     is_following = True
     if request.method == "POST":
-        # post_id = request.POST['post_id']
-        # post = Blog.objects.get(id=post_id)
         follower_id = request.POST.get('user_id')
         following_id = request.POST.get('author_id')
         follower_user_id = Account.objects.get(id=follower_id)
