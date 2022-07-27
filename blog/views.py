@@ -74,10 +74,10 @@ def signup(request):
                     first_name = form.cleaned_data['first_name']
                     last_name = form.cleaned_data['last_name']
                     gender = request.POST.get('gender')
-                    termsAgreed = request.POST.get('terms_agreed')
+                    terms_agreed = request.POST.get('terms_agreed')
                     if password1 == password2:
                         user = Account.objects.create_user(username=username, email=email, password=password1)
-                        user.termsAgreed = termsAgreed
+                        user.termsAgreed = terms_agreed
                         user.gender = gender
                         user.first_name = first_name
                         user.last_name = last_name
@@ -90,30 +90,6 @@ def signup(request):
                         messages.add_message(request, messages.ERROR,
                                              'Password and confirm password does not match. Please try again!')
 
-    # below is working method without validation
-    # if request.method == 'POST':
-    #     username = request.POST.get('username')
-    #     password1 = request.POST.get('password1')
-    #     password2 = request.POST.get('password2')
-    #     email = request.POST.get('email')
-    #     first_name = request.POST.get('first_name')
-    #     last_name = request.POST.get('last_name')
-    #     gender = request.POST.get('gender')
-    #     termsAgreed = request.POST.get('terms_agreed')
-    #     if password1 == password2:
-    #         user = Account.objects.create_user(username=username, email=email, password=password1)
-    #         user.termsAgreed = termsAgreed
-    #         user.gender = gender
-    #         user.first_name = first_name
-    #         user.last_name = last_name
-    #         user.save()
-    #         login(request, user)
-    #         messages.add_message(request, messages.SUCCESS,
-    #                              "Your account has been created successfully. Please update your profile.")
-    #         return redirect(f"/profile/{username}")
-    #     else:
-    #         messages.add_message(request, messages.ERROR,
-    #                              ('Password and confirm password does not match. Please try again!'))
     context = {'form': form}
     return render(request, 'registration/signup.html', context=context)
 
