@@ -90,7 +90,7 @@ def signup(request):
                         messages.add_message(request, messages.ERROR,
                                              'Password and confirm password does not match. Please try again!')
 
-    # below is worling method without validation
+    # below is working method without validation
     # if request.method == 'POST':
     #     username = request.POST.get('username')
     #     password1 = request.POST.get('password1')
@@ -109,7 +109,7 @@ def signup(request):
     #         user.save()
     #         login(request, user)
     #         messages.add_message(request, messages.SUCCESS,
-    #                              "Your accont has been created successfully. Please update your profile.")
+    #                              "Your account has been created successfully. Please update your profile.")
     #         return redirect(f"/profile/{username}")
     #     else:
     #         messages.add_message(request, messages.ERROR,
