@@ -12,6 +12,8 @@ EMAIL_PASSWORD = settings.EMAIL_HOST_PASSWORD
 
 @app.task()
 def send_emails(author, slug):
+    print(f"from email:{FROM_EMAIL}")
+    print(f"email_password:{EMAIL_PASSWORD}")
     author_name = Account.objects.get(id=author)
     subscribers = Subscriber.objects.filter(following_user_id=author)
     link = f"http://139.59.95.41:8000/blogpost/{slug}"
