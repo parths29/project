@@ -16,7 +16,7 @@ from django.core.cache import cache
 # Create your views here.
 def home(request):
     request.session.modified = True
-    news_cat = 'hatke'
+    news_cat = ''
     trending_loaded = cache.get('trending_loaded')
     if request.GET.get('category') is not None:
         news_cat = request.GET.get('category')
