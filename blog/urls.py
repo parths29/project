@@ -36,4 +36,5 @@ urlpatterns = [
     path('subscribe/', views.subscribe, name='subscribe'),
     path('unsubscribe/', views.unsubscribe, name='unsubscribe'),
     path('login/', views.login_handle, name='login'),
+    path('verification/<str:username>/<str:verification_code>', views.verify_email, name='verify_email'),
 ]

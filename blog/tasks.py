@@ -26,3 +26,14 @@ def send_emails(author, slug):
         recipient_list=email_list,
         fail_silently=True
     )
+
+
+@app.task()
+def send_verification_code(username, verification_code, email):
+    link = f"http://192.168.71.68:8000/verification/{username}/{verification_code}"
+    send_mail(
+        subject="Email verification for iBlogger",
+        message=f"Hello,\nYour account has been created. Please verify your email. {link}",
+        from_email=FROM_EMAIL,
+        recipient_list=[email],
+    )

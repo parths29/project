@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from blog.forms import SignUpForm
 from django.core.paginator import Paginator
 from django.core.cache import cache
+from django.utils.crypto import get_random_string
 
 
 # Create your views here.
@@ -46,8 +47,11 @@ def login_handle(request):
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
-            login(request, user)
-            return redirect("/")
+            if user.is_email_verified:
+                login(request, user)
+                return redirect("/")
+            else:
+                messages.add_message(request, messages.INFO, message='Please verify your email.')
         else:
             messages.add_message(request, messages.ERROR, message="email or password is incorrect. please try again")
     return render(request, 'registration/login.html')
@@ -81,11 +85,13 @@ def signup(request):
                         user.gender = gender
                         user.first_name = first_name
                         user.last_name = last_name
+                        user.verification_code = get_random_string(18)
                         user.save()
-                        login(request, user)
-                        messages.add_message(request, messages.SUCCESS,
-                                             "Your account has been created successfully. Please update your profile.")
-                        return redirect(f"/profile/{username}")
+                        send_verification_code(username, user.verification_code, user.email)
+                        messages.add_message(request, messages.INFO,
+                                             message="Your account has been created successfully. Please verify your "
+                                                     "email.")
+                        return redirect("/")
                     else:
                         messages.add_message(request, messages.ERROR,
                                              'Password and confirm password does not match. Please try again!')
@@ -140,7 +146,7 @@ def delete_post(request):
         post_id = request.GET.get('post_id')
         post = Blog.objects.get(id=post_id)
         post.delete()
-    return redirect(f"/")
+    return redirect("/")
 
 
 @login_required()
@@ -304,3 +310,13 @@ def unsubscribe(request):
             subscriber.delete()
             is_following = False
     return JsonResponse({'is_following': is_following})
+
+
+def verify_email(request, username, verification_code):
+    user = Account.objects.get(username=username)
+    if user.verification_code == verification_code:
+        user.is_email_verified = True
+        user.save()
+        messages.add_message(request, messages.SUCCESS,
+                             message="Your email has been verified successfully.Please login to your account.")
+    return redirect('/login')

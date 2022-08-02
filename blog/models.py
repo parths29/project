@@ -45,6 +45,8 @@ class Account(AbstractUser):
     profile_image = models.ImageField(max_length=300, upload_to='images/profiles', null=True, blank=True,
                                       default='images/default_user_image.png')
     hide_email = models.BooleanField(default=True)
+    verification_code = models.CharField(max_length=20, null=False, default='')
+    is_email_verified = models.BooleanField(default=False)
     groups = models.ManyToManyField(blank=True,
                                     help_text='The groups this user belongs to. A user will get all permissions '
                                               'granted to each of their groups.',
