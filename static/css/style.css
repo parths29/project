@@ -6508,6 +6508,7 @@ a.close.disabled {
 
 .carousel-control-prev,
 .carousel-control-next {
+  font-size: 1.1rem;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -6515,7 +6516,7 @@ a.close.disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 6%;
+  width: 0%;
   /* color: #fff; */
   text-align: center;
   /* opacity: 0.5; */
@@ -6534,7 +6535,8 @@ a.close.disabled {
 .carousel-control-prev:focus,
 .carousel-control-next:hover,
 .carousel-control-next:focus {
-  /* color: #fff; */
+  color: #070708;
+  font-size: 1.5rem;
   text-decoration: none;
   outline: 0;
   opacity: 0.9;
