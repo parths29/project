@@ -6516,7 +6516,7 @@ a.close.disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 0%;
+  width: 1%;
   /* color: #fff; */
   text-align: center;
   /* opacity: 0.5; */
