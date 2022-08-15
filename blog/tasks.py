@@ -41,7 +41,7 @@ def send_verification_code(username, verification_code, email):
 
 @app.task()
 def send_password_reset_link(username, email, password_reset_code):
-    link = f"http://192.168.71.68:8000/reset_password/{username}/{password_reset_code}"
+    link = f"http://139.59.95.41:8000/reset_password/{username}/{password_reset_code}"
     send_mail(
         subject="Password reset link for iBlogger",
         message=f"Hello,\nPlease go to the link to reset your account password. {link}",
