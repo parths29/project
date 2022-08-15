@@ -362,4 +362,7 @@ def change_password(request):
             messages.add_message(request, messages.SUCCESS,
                                  message='Your password has been changed successfully. Please login again')
             return redirect('/')
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 message="Password and confirm password are not same. Please try again")
     return render(request, 'registration/change_password.html')
