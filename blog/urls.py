@@ -37,4 +37,7 @@ urlpatterns = [
     path('unsubscribe/', views.unsubscribe, name='unsubscribe'),
     path('login/', views.login_handle, name='login'),
     path('verification/<str:username>/<str:verification_code>', views.verify_email, name='verify_email'),
+    path('forgot_password/', views.forgot_password, name='forgot_password'),
+    path('reset_password/<str:username>/<str:password_reset_code>', views.reset_password, name='reset_password'),
+    path('change_password/', views.change_password, name='change_password'),
 ]

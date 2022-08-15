@@ -45,6 +45,7 @@ class Account(AbstractUser):
     profile_image = models.ImageField(max_length=300, upload_to='images/profiles', null=True, blank=True,
                                       default='images/default_user_image.png')
     hide_email = models.BooleanField(default=True)
+    password_reset_code = models.CharField(max_length=20, null=True, default='')
     verification_code = models.CharField(max_length=20, null=False, default='')
     is_email_verified = models.BooleanField(default=False)
     groups = models.ManyToManyField(blank=True,

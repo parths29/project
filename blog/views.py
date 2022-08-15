@@ -320,3 +320,46 @@ def verify_email(request, username, verification_code):
         messages.add_message(request, messages.SUCCESS,
                              message="Your email has been verified successfully.Please login to your account.")
     return redirect('/login')
+
+
+def forgot_password(request):
+    if request.GET.get('email') is not None:
+        if request.method == 'GET':
+            try:
+                user = Account.objects.get(email=request.GET.get('email'))
+                user.password_reset_code = get_random_string(18)
+                user.save()
+                send_password_reset_link(username=user.username, email=user.email,
+                                         password_reset_code=user.password_reset_code)
+                messages.add_message(request, messages.INFO,
+                                     message="Password reset link has been sent to your registered email address. "
+                                             "Please verify")
+                return redirect('/login')
+            except ObjectDoesNotExist:
+                messages.add_message(request, messages.ERROR, message="Account does not exist.")
+    return render(request, 'registration/forgot_password.html')
+
+
+def reset_password(request, username, password_reset_code):
+    user = Account.objects.get(username=username)
+    if user.password_reset_code == password_reset_code:
+        return render(request, 'registration/change_password.html')
+    else:
+        messages.add_message(request, messages.ERROR,
+                             message='Password reset code is wrong or expired. Please try again.')
+        return redirect('/')
+
+
+@login_required()
+def change_password(request):
+    user = Account.objects.get(username=request.user.username)
+    if request.method == 'POST':
+        password1 = request.POST.get('password')
+        password2 = request.POST.get('confirm_password')
+        if password1 == password2:
+            user.set_password(password2)
+            user.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 message='Your password has been changed successfully. Please login again')
+            return redirect('/')
+    return render(request, 'registration/change_password.html')
