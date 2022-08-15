@@ -591,10 +591,14 @@
                         </div>
                         {% if req_user.username == user.username %}
                             <div class="card-body p-4 text-black">
-                                <div class="mb-0">
+                                <div class="mb-0 row">
                                     <p class="lead fw-normal mb-1">
                                         <button class="updateButton btn-outline bg-dark text-white"
                                                 onclick="profileUpdate()">Update Details</button>
+                                    </p>
+                                    <p class="lead fw-normal mb-1 ml-2">
+                                        <a href="{% url 'blog:change_password' %}"><button class="updateButton btn-outline bg-dark text-white">Change Password</button></a>
+                                        {% comment %} <a class="updateButton btn-outline bg-dark text-white" href="" type="button">Change Password</a> {% endcomment %}
                                     </p>
                                 </div>
                             </div>
