@@ -86,8 +86,9 @@ def signup(request):
                         user.first_name = first_name
                         user.last_name = last_name
                         user.verification_code = get_random_string(18)
+                        user.unique_id = get_random_string(10)
                         user.save()
-                        send_verification_code(username, user.verification_code, user.email)
+                        send_verification_code(user.unique_id, user.verification_code, user.email)
                         messages.add_message(request, messages.INFO,
                                              message="Your account has been created successfully. Please verify your "
                                                      "email.")
@@ -312,8 +313,8 @@ def unsubscribe(request):
     return JsonResponse({'is_following': is_following})
 
 
-def verify_email(request, username, verification_code):
-    user = Account.objects.get(username=username)
+def verify_email(request, unique_id, verification_code):
+    user = Account.objects.get(unique_id=unique_id)
     if user.verification_code == verification_code:
         user.is_email_verified = True
         user.save()
@@ -328,8 +329,9 @@ def forgot_password(request):
             try:
                 user = Account.objects.get(email=request.GET.get('email'))
                 user.password_reset_code = get_random_string(18)
+                user.is_password_reset_code_verified = False
                 user.save()
-                send_password_reset_link(username=user.username, email=user.email,
+                send_password_reset_link(unique_id=user.unique_id, email=user.email,
                                          password_reset_code=user.password_reset_code)
                 messages.add_message(request, messages.INFO,
                                      message="Password reset link has been sent to your registered email address. "
@@ -340,14 +342,40 @@ def forgot_password(request):
     return render(request, 'registration/forgot_password.html')
 
 
-def reset_password(request, username, password_reset_code):
-    user = Account.objects.get(username=username)
-    if user.password_reset_code == password_reset_code:
-        return render(request, 'registration/change_password.html')
+def reset_password(request, unique_id, password_reset_code):
+    user = Account.objects.get(unique_id=unique_id)
+    if user.is_password_reset_code_verified:
+        return redirect(f'/set_password/{unique_id}')
     else:
-        messages.add_message(request, messages.ERROR,
-                             message='Password reset code is wrong or expired. Please try again.')
+        if user.password_reset_code == password_reset_code:
+            user.is_password_reset_code_verified = True
+            user.save()
+            return redirect(f'/reset_password/{unique_id}/{password_reset_code}')
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 message='Password reset code is wrong or expired. Please try again.')
+            return redirect('/')
+
+
+def set_password(request, unique_id):
+    user = Account.objects.get(unique_id=unique_id)
+    if user.is_password_reset_code_verified == '' or user.password_reset_code == '':
+        messages.add_message(request, messages.WARNING, message='some thing is wrong. Please try again')
         return redirect('/')
+
+    if request.method == 'POST':
+        if user.is_password_reset_code_verified:
+            password1 = request.POST.get('password')
+            password2 = request.POST.get('confirm_password')
+            if password1 == password2:
+                user.is_password_reset_code_verified = ''
+                user.password_reset_code = ''
+                user.set_password(password2)
+                user.save()
+                messages.add_message(request, messages.SUCCESS,
+                                     message='Your password has been set successfully. Please login.')
+                return redirect('/login')
+    return render(request, 'registration/change_password.html')
 
 
 @login_required()

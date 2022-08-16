@@ -34,6 +34,7 @@ class MyAccountManager(BaseUserManager):
 
 
 class Account(AbstractUser):
+    unique_id = models.CharField(max_length=10, unique=True, blank=False)
     email = models.EmailField(max_length=50, verbose_name='email', unique=True)
     username = models.CharField(max_length=50, unique=True)
     date_joined = models.DateTimeField(verbose_name='Date joined', auto_now_add=True)
@@ -46,6 +47,7 @@ class Account(AbstractUser):
                                       default='images/default_user_image.png')
     hide_email = models.BooleanField(default=True)
     password_reset_code = models.CharField(max_length=20, null=True, default='')
+    is_password_reset_code_verified = models.BooleanField(null=True, blank=True)
     verification_code = models.CharField(max_length=20, null=False, default='')
     is_email_verified = models.BooleanField(default=False)
     groups = models.ManyToManyField(blank=True,
