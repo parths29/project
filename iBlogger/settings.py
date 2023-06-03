@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
 import mimetypes
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 mimetypes.add_type("text/css", ".css", True)
 
@@ -102,10 +102,10 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'iblogger',
-        'USER': 'dbadmin',
-        'PASSWORD': '123',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
 
     }
 
@@ -199,7 +199,7 @@ CACHES = {
 
 }
 
-load_dotenv()
+# load_dotenv()
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
